@@ -1,12 +1,15 @@
 import static spark.Spark.*;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.json.JSONObject;
 
 public class Main {
 
-  static HashMap<Integer, Message> messages = new HashMap<Integer, Message>();
+  static Map<Integer, Message> messages = new ConcurrentHashMap<Integer, Message>();
+  static AtomicInteger id = new AtomicInteger();
 
   public static void main(String[] args) {
 
@@ -15,7 +18,7 @@ public class Main {
 
     // Add a message
     post("/messages", (request, response) -> {
-      return addMessage(new JSONObject(request.body()));
+      return addMessage(id.getAndIncrement(), new JSONObject(request.body()));
     });
 
     // Get message by ID
@@ -35,15 +38,12 @@ public class Main {
     });
   }
 
-  public static JSONObject addMessage(JSONObject jsonObj) {  
-    int id = messages.size();
-
+  public static JSONObject addMessage(int id, JSONObject jsonObj) { 
     jsonObj.put("id", id);
-
     String text = jsonObj.getString("text");
     String from = jsonObj.getString("from");
     String to = jsonObj.getString("to");    
-    messages.put(id, new Message(text, from, to));
+    messages.putIfAbsent(id, new Message(text, from, to));
 
     return jsonObj;
   }
