@@ -6,12 +6,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.json.JSONObject;
 
+import spark.Spark;
+
 public class Main {
 
   static Map<Integer, Message> messages = new ConcurrentHashMap<Integer, Message>();
   static AtomicInteger id = new AtomicInteger();
 
-  public static void main(String[] args) {
+  public static void init() {
+    Spark.init();
+    setRoutes();
+  }
+
+  public static void setRoutes() {
 
     // Basic Hello World endpoint
     get("/hello", (req, res) -> "Hello World");
@@ -29,7 +36,7 @@ public class Main {
       
       Message responseMessage = messages.get(Integer.parseInt(request.params(":id")));
       JSONObject jsonObj = new JSONObject();
-      jsonObj.put("id", request.params(":id"));
+      jsonObj.put("id", Integer.parseInt(request.params(":id")));
       jsonObj.put("text", responseMessage.getText());
       jsonObj.put("from", responseMessage.getFrom());
       jsonObj.put("to", responseMessage.getTo());
@@ -46,5 +53,9 @@ public class Main {
     messages.putIfAbsent(id, new Message(text, from, to));
 
     return jsonObj;
+  }
+    
+  public static void stop() {
+    Spark.stop();
   }
 }
