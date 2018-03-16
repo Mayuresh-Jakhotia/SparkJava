@@ -66,6 +66,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
         <executions>
+        <!-- 
           <execution>
             <id>pre-integration</id>
             <phase>pre-integration-test</phase>
@@ -81,6 +82,7 @@
                </arguments>
             </configuration> 
           </execution>
+           -->
           <execution>
             <id>post-integration</id>
             <phase>post-integration-test</phase>
@@ -97,7 +99,29 @@
             </configuration> 
           </execution>          
         </executions>       
-      </plugin>     
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+             <id>pre-integration</id>
+             <phase>pre-integration-test</phase>
+             <configuration>
+                 <target>
+                     <exec executable="cmd"
+                           >
+                         <arg value="/c"/>
+                         <arg value="startup_service.bat"/>
+                     </exec>
+                 </target>
+             </configuration>
+             <goals>
+                 <goal>run</goal>
+             </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>  
   

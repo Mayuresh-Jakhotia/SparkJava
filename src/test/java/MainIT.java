@@ -21,9 +21,7 @@ public class MainIT {
   
   @Before
   public void setUp() throws InterruptedException {
-    Main.init();
-    main = new Main();
-    
+    main = new Main();    
   }
 
   @Test
@@ -91,12 +89,6 @@ public class MainIT {
     assertEquals("Mayuresh", responseObj.get("from"));
     assertEquals("Eclipse", responseObj.get("to"));
     assertEquals(0, responseObj.get("id"));
-  }  
-  
-  @After
-  public void tearDown() throws InterruptedException {
-    //Stop the server after integration tests are done
-    Main.stop();
   }
   
 }

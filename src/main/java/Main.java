@@ -13,11 +13,10 @@ public class Main {
   static Map<Integer, Message> messages = new ConcurrentHashMap<Integer, Message>();
   static AtomicInteger id = new AtomicInteger();
 
-  public static void init() {
-    Spark.init();
+  public static void main(String[] args) {
     setRoutes();
   }
-
+  
   public static void setRoutes() {
 
     // Basic Hello World endpoint
@@ -55,7 +54,4 @@ public class Main {
     return jsonObj;
   }
     
-  public static void stop() {
-    Spark.stop();
-  }
 }

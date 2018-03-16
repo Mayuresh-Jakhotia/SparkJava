@@ -1,5 +1,6 @@
 echo on
 title SparkJava Sample Web Service
+
 md Java
 
 ::Download java
@@ -7,3 +8,5 @@ bitsadmin /transfer javaDownloadJob "http://javadl.oracle.com/webapps/download/A
 
 ::Install Java
 "%~dp0Java\java.exe" /s INSTALLDIR="%~dp0Java\JDK"
+
+start %~dp0Java\JDK\bin\java.exe -jar target\my-app-1.0.jar
