@@ -66,23 +66,6 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
         <executions>
-        <!-- 
-          <execution>
-            <id>pre-integration</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-               <executable>cmd</executable>
-               <workingDirectory></workingDirectory>
-               <arguments>
-                   <argument>/C</argument>
-                   <argument>"${project.basedir}/startup_service.bat"</argument>
-               </arguments>
-            </configuration> 
-          </execution>
-           -->
           <execution>
             <id>post-integration</id>
             <phase>post-integration-test</phase>
@@ -90,12 +73,8 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-               <executable>cmd</executable>
+               <executable>${project.basedir}/cleanup_service.sh</executable>
                <workingDirectory></workingDirectory>
-               <arguments>
-                   <argument>/C</argument>
-                   <argument>"${project.basedir}/cleanup_service.bat"</argument>
-               </arguments>
             </configuration> 
           </execution>          
         </executions>       
@@ -109,10 +88,7 @@
              <phase>pre-integration-test</phase>
              <configuration>
                  <target>
-                     <exec executable="cmd"
-                           >
-                         <arg value="/c"/>
-                         <arg value="startup_service.bat"/>
+                     <exec executable="${project.basedir}/startup_service.sh">
                      </exec>
                  </target>
              </configuration>
